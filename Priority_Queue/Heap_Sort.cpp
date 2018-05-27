@@ -5,8 +5,9 @@ const int NMAX = 1001;
 int trr[NMAX];
 int nums = 0;
 
+// HEAP SORTING
 void upheap(int a[], int k)
-{
+{// After PUSH, upheap the node
 	int v;
 	v = a[k];
 	a[0] = IMAX;
@@ -20,7 +21,7 @@ void upheap(int a[], int k)
 }
 
 void downheap(int a[], int n, int k)
-{
+{// After POP, downheap the last node which moved to top
 	int i, v;
 	v = a[k];
 
@@ -52,8 +53,10 @@ int extract(int a[], int *n)
 void heap_sort(int a[], int n)
 {
 	int hn = 0;
+    // PUSH
 	for (int i = 1; i <= n; i++)
 		insert(a, &hn, a[i]);
+    // POP
 	for (int i = hn; i >= 1; i--)
 		a[i] = extract(a, &hn);
 }
@@ -95,7 +98,7 @@ int main()
 {
 	int arr[11] = { IMIN, 4, 5, 2, 6, 7, 8, 3, 1, 10, 9 };
 	heap_sort(arr, 10);
-	// INIT
+	// INIT - Data generation
 	for (int i = 1; i <= 10; i++)
 	{
 		printf("%d ", arr[i]);
@@ -104,16 +107,19 @@ int main()
 	}
 	printf("\n");
 	int ret = 0;
+    
 	// SEARCH
 	ret = li_search(7, trr, &nums);
 	if (ret < 0)
 		printf("7 is not here\n");
 	else
 		printf("7 is at (%d) index of array\n", ret);
-	// INSERT
+	
+    // INSERT
 	if (nums < NMAX) ret = li_insert(11, trr, &nums);
 	printf("11 is saved at (%d) index of array\n", ret);
-	// DELETE
+	
+    // DELETE
 	ret = li_delete(5, trr, &nums);
 	if (ret < 0)
 		printf("5 is not here\n");
