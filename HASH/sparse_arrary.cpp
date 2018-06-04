@@ -29,7 +29,18 @@ node nodes[NMAX];
 int ncnt;
 // HASH
 node *hashtbl[HMAX];
-unsigned long long hashfunc(const char *name)
+unsigned long long hashfunc(const char *str)
+{
+	unsigned long long hash = 5381;
+	int c;
+
+	while (c = *str++)
+		hash = (((hash << 5) + hash) + c) % HMAX;
+
+	return hash % HMAX;
+}
+
+unsigned long long hashfunc2(const char *name)
 {
 	unsigned long long tmp[7];
 	for (int i = 0; i < 7; i++)
