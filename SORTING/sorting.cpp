@@ -18,7 +18,7 @@ void insertion_sort(int arr[], int n)
 
 // BUBBLE
 // Bubble the largest number toward the right
-// O(N*N)
+// Quadratic time: O(N*N)
 // Comparison: (N-1) + (N-2) + (N-3) ... + 1 
 // SWAP : (N-1) + (N-2) + (N-3) ... + 1 
 void bubble_sort(int arr[], int n)
