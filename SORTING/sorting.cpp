@@ -4,6 +4,7 @@ const int XRANGE = 10001;
 
 // INSERTION
 // Inserts the least number into proper position on left side
+// From index 1(2nd cell)
 void insertion_sort(int arr[], int n)
 {
 	for (int i = 1; i < n; i++)
