@@ -6,7 +6,7 @@
 const int NMAX = 1001;
 
 extern void init(void);
-extern void hash_chain_add_dup_key_ok(int key);
+extern void hash_chain_add_no_dup_key(int key);
 extern int hash_chain_find(int key);
 extern int hash_chain_delete(int key);
 extern void hash_chain_print(void);
@@ -37,7 +37,7 @@ int main()
 			int kval;
 			scanf("%d", &kval);
 			data[dcnt++] = kval;
-			hash_chain_add_dup_key_ok(kval);
+			hash_chain_add_no_dup_key(kval);
 			hash_chain_print();
 		}
 
