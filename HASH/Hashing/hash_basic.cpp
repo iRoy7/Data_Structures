@@ -84,7 +84,7 @@ void hash_chain_print(void)
 
 /////////////////////////////////////////////////////////////////////////
 // HASH ADT
-void hash_chain_add_dup_key_ok(int key)
+void hash_chain_add_no_dup_key(int key)
 {
 	int hval = hash_func(key);
 	
