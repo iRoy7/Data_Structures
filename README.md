@@ -19,4 +19,5 @@ _Sorting_
 _Searching_
 
 -> Hashing
+
 -> Heap
