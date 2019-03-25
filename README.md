@@ -1,7 +1,8 @@
 # Data_Structures
 Array, Linked List, Circular Linked List, Doubly Linked List
 
-_ADS(Abstract Data Structure)_
+_ADT(Abstract Data Type)_
+_DS (Data Structure)_
 
 -> Stack
 
