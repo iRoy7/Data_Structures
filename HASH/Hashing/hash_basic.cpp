@@ -1,9 +1,8 @@
 #include <stdio.h>
-
 #define null (0)
 
 const int NMAX = 1001;
-const int M = 7;
+const int M = 7; // # of bucket
 
 typedef struct _node {
 	int key;
@@ -11,7 +10,7 @@ typedef struct _node {
 } node;
 
 int ncnt;
-// Linked List for Chaining
+// Linked-list for chaining
 node nodes[NMAX];
 // HASH TABLE
 node *hashtbl[M];
@@ -28,7 +27,6 @@ void init(void)
 	{
 		hashtbl[i] = null;
 	}
-	printf("Init Success...(1)\n");
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -41,10 +39,10 @@ node *node_get(int key)
 }
 
 /////////////////////////////////////////////////////////////////////////
-// HASH 
-// Numeric Key
+// HASH ADT
+// Hash function for numeric type of keys
 // h(k) = k mod M
-int hash_func(int key)
+unsigned int hash_func1(int key)
 {
 	int hash_index = key % M;
 	if (hash_index < 0)
@@ -52,7 +50,20 @@ int hash_func(int key)
 	return hash_index;
 }
 
-// Character String Key
+unsigned int hash_func(int key)
+{
+	key += (key << 12);
+	key ^= (key >> 22);
+	key += (key << 4);
+	key ^= (key >> 9);
+	key += (key << 10);
+	key ^= (key >> 2);
+	key += (key << 7);
+	key ^= (key >> 12);
+	return (key % M);
+}
+
+// Hash function for character string type of key
 unsigned long long hash_func2(const char *str)
 {
 	unsigned long long hash = 5381;
@@ -86,15 +97,16 @@ void hash_chain_print(void)
 // HASH ADT
 void hash_chain_add_no_dup_key(int key)
 {
-	int hval = hash_func(key);
+	unsigned int hval = hash_func(key);
 	
-	// Bucket's first slot(node)
-	node *bnode = hashtbl[hval];
+	// Bucket's first slot(node) pointer
+	node *ptr_node = hashtbl[hval];
 	// previous node
 	node *prev_node = null;
-	for (; bnode; prev_node = bnode, bnode = bnode->next)
+
+	for (; ptr_node; prev_node = ptr_node, ptr_node = ptr_node->next)
 	{
-		if (bnode->key == key)
+		if (ptr_node->key == key)
 		{
 			//fprintf(stderr, "The key already exsits\n");
 			printf("The key already exsits\n");
@@ -110,9 +122,22 @@ void hash_chain_add_no_dup_key(int key)
 		hashtbl[hval] = n;
 }
 
+void hash_chain_add_dup_key_ok(int key)
+{
+	unsigned int hval = hash_func(key);
+
+	// Bucket's first slot(node) pointer
+	node *ptr_node = hashtbl[hval];
+
+	// Creates a new node with key
+	node *n = node_get(key);
+	n->next = ptr_node;
+	hashtbl[hval] = n;
+}
+
 int hash_chain_find(int key)
 {
-	int hval = hash_func(key);
+	unsigned int hval = hash_func(key);
 
 	node *p;
 
@@ -120,31 +145,31 @@ int hash_chain_find(int key)
 	{
 		if (p->key == key)
 		{
-			printf("Find %d successfully\n", key);
+			printf("Find (%d) successfully\n", key);
 			return 1;
 		}
 	}
 
-	printf("There is no %d key here\n", key);
+	printf("There is no (%d) key here\n", key);
 	return 0;
 }
 
 int hash_chain_delete(int key)
 {
-	int hval = hash_func(key);
+	unsigned int hval = hash_func(key);
 
 	node *p = hashtbl[hval];
 	// First slot is the key
-	if (p->key == key)
+	if (p && p->key == key)
 	{
-		if (p && p->next)
+		if (p->next)
 		{
-			printf("Deletes %d ...\n", key);
+			printf("Deletes (%d) ...\n", key);
 			hashtbl[hval] = p->next;
 		}
 		else
 		{
-			printf("Deletes %d ...\n", key);
+			printf("Deletes (%d) ...\n", key);
 			hashtbl[hval] = null;
 		}
 
@@ -158,13 +183,13 @@ int hash_chain_delete(int key)
 		{
 			if (prev != null)
 			{
-				printf("Deletes %d ...\n", key);
+				printf("Deletes (%d) ...\n", key);
 				prev->next = p->next;
 				return 1;
 			}
 		}
 	}
 
-	printf("Can't find %d key to delete!\n", key);
+	printf("Can't find (%d) key to delete!\n", key);
 	return 0;
 }
